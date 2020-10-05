@@ -145,11 +145,60 @@ def getR(pathesP, problem):
 
 
 def depthFirstSearch(problem, recursive = True):
-    util.raiseNotDefined()
+    visited = []
+
+    start = problem.getStartState()
+
+    route = []
+
+    if recursive:
+
+        stack_directions = util.Stack()
+
+        recDFS(start, visited, stack_directions, problem)
+
+        route = stack_directions.list[::-1]
+    else:
+        stack = util.Stack()
+        stack.push(start)
+        while not stack.isEmpty():
+            vertex = stack.pop()
+            visited.append(vertex)
+            if vertex == problem.goal:
+                break
+            neighbours = problem.getSuccessors(vertex)
+            for nb in neighbours:
+                if nb[0] not in visited:
+                    stack.push(nb[0])
+
+        pathesP = reconstructPath(visited, problem)
+        route = getR(pathesP, problem)
+
+    showOfChecked(visited)
+
+    return route
 
 def breadthFirstSearch(problem):
-    util.raiseNotDefined()
+    queue = util.Queue()
+    visited = []
+    queue.push(problem.getStartState())
 
+    while not queue.isEmpty():
+        vertex = queue.pop()
+        visited.append(vertex)
+        if vertex == problem.goal:
+            break
+        neighbours = problem.getSuccessors(vertex)
+        for nb in neighbours:
+            if nb[0] not in visited:
+                queue.push(nb[0])
+
+    pathesP = reconstructPath(visited, problem)
+    path = getR(pathesP, problem)
+
+    showOfChecked(visited)
+
+    return path
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
