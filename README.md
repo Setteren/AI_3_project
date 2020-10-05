@@ -21,4 +21,4 @@
 
 Для запуску режиму BFS : 
 
-> py pacman.py -l mediumMaze -p SearchAgent -a fn=bf
+> py pacman.py -l mediumMaze -p SearchAgent -a fn=bfs
