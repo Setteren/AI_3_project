@@ -103,7 +103,7 @@ class InfoPane:
         return x,y
 
     def drawPane(self):
-        self.scoreText = text( self.toScreen(0, 0  ), self.textColor, "STEPS:    0", "Times", self.fontSize, "bold")
+        self.scoreText = text( self.toScreen(0, 0  ), self.textColor, "STEPS    0", "Times", self.fontSize, "bold")
 
     def initializeGhostDistances(self, distances):
         self.ghostDistanceText = []
@@ -119,7 +119,7 @@ class InfoPane:
             self.ghostDistanceText.append(t)
 
     def updateScore(self, score):
-        changeText(self.scoreText, "STEPS: % 4d" % score)
+        changeText(self.scoreText, "STEPS: % 4d" % -score)
 
     def setTeam(self, isBlue):
         text = "RED TEAM"

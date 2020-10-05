@@ -33,6 +33,7 @@ description for details.
 
 Good luck and happy searching!
 """
+from memory_profiler import memory_usage
 
 from game import Directions
 from game import Agent
@@ -115,8 +116,11 @@ class SearchAgent(Agent):
         self.actions  = self.searchFunction(problem) # Find a path
         totalCost = problem.getCostOfActions(self.actions)
         now=time.time()-starttime
-        print('Path found with total cost of %d in %f seconds' % (totalCost, now))
-        if '_expanded' in dir(problem): print('Search nodes expanded: %d' % problem._expanded)
+
+        mem_usage = memory_usage()
+        print('Maximum memory usage: %s' % max(mem_usage))
+        print('Steps %d in %f seconds' % (totalCost, now))
+
 
     def getAction(self, state):
         """

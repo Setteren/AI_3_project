@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+from memory_profiler import memory_usage
 
 class SearchProblem:
     """
@@ -197,7 +198,6 @@ def breadthFirstSearch(problem):
     path = getR(pathesP, problem)
 
     showOfChecked(visited)
-
     return path
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""

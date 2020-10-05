@@ -39,6 +39,8 @@ code to run a game.  This file is divided into three sections:
 To play your first game, type 'python pacman.py' from the command line.
 The keys are 'a', 's', 'd', and 'w' to move (or arrow keys).  Have fun!
 """
+from memory_profiler import memory_usage
+
 from game import GameStateData
 from game import Game
 from game import Directions
@@ -46,6 +48,7 @@ from game import Actions
 from util import nearestPoint
 from util import manhattanDistance
 import util, layout
+import psutil
 import sys, types, time, random, os
 
 ###################################################
@@ -658,8 +661,6 @@ def runGames( layout, pacman, ghosts, display, numGames, record, numTraining = 0
         wins = [game.state.isWin() for game in games]
         winRate = wins.count(True)/ float(len(wins))
 
-       
-
 
     return games
 
@@ -677,6 +678,8 @@ if __name__ == '__main__':
     args = readCommand( sys.argv[1:] ) # Get game components based on input
     runGames( **args )
 
-    # import cProfile
+
+
+# import cProfile
     # cProfile.run("runGames( **args )")
     pass
