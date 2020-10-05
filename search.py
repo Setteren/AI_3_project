@@ -72,26 +72,82 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def depthFirstSearch(problem):
-    """
-    Search the deepest nodes in the search tree first.
+##Helpers
+def getCourse(start, end):
+    from game import Directions
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
+    [dx, dy] = [end[0] - start[0], end[1] - start[1]]
+    direction = None
 
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
+    if dy == 0 and dx > 0:
+        direction = Directions.EAST
+    elif dy == 0 and dx < 0:
+        direction = Directions.WEST
+    elif dx == 0 and dy > 0:
+        direction = Directions.NORTH
+    elif dx == 0 and dy < 0:
+        direction = Directions.SOUTH
 
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    """
-    "*** YOUR CODE HERE ***"
+    return direction
+
+def recDFS(start, visited, stack_directions, problem):
+
+    if start == problem.goal:
+        return True
+
+
+    visited.append(start)
+ 
+    neighbours = problem.getSuccessors(start)
+    for nb in neighbours:
+        if nb[0] not in visited:
+            if recDFS(nb[0], visited, stack_directions, problem) == True:
+                stack_directions.push(nb[1])
+                return True
+    return False
+
+def showOfChecked(visited):
+    import __main__
+    __main__.__dict__['_display'].drawExpandedCells(visited)
+    
+def pathBuilder(goal, explored):
+    node = explored[goal]
+    pathesP = [goal]
+    while not node['prev'] == None:
+        pathesP.append(node['prev'])
+        node = explored[node['prev']]
+    pathesP = pathesP[::-1]
+    return pathesP
+
+def reconstructPath(visited, problem):
+    start = problem.getStartState()
+    [pathesP, neighbours, last] = [[],[], None]
+    for elem in visited[::-1]:
+        if start in neighbours:
+            pathesP.append(start)
+            break
+        if elem in neighbours or neighbours == []:
+                last = elem
+                pathesP.append(last)
+                neighbours = [x[0] for x in problem.getSuccessors(last)]
+
+    pathesP = pathesP[::-1]
+    return pathesP
+
+def getR(pathesP, problem):
+    route = []
+    start = pathesP[0]
+    for pt in pathesP[1:]:
+        course = getCourse(start, pt)
+        start = pt
+        route.append(course)
+    return route
+
+
+def depthFirstSearch(problem, recursive = True):
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
