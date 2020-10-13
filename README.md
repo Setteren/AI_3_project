@@ -22,7 +22,7 @@ A*
 
 Жадібний алгоритм
 
-![greedy](https://i.ibb.co/xs527wt/pycharm64-Xat-EVft5-Nz.png)
+![greedy](https://i.ibb.co/N9C4LDC/pycharm64-u-S073p-C7-G4.png)
 
 У зв'язку з показаннями затрат пам'яті імпортували memory profiler.<br/><br/>
 Потрібен встановленний [pip](https://bootstrap.pypa.io/get-pip.py). Зберегти у форматі .py та запустити. [*Ось повний гайд на встановлення pip*](https://pip.pypa.io/en/latest/installing/)<br/>
