@@ -261,7 +261,7 @@ def GreedySearch(problem, heuristic=nullHeuristic):
     start_cost = heuristic(start, problem)
 
     reachable = util.PriorityQueue()
-    reachable.push(start, start_cost)
+    reachable.push([[(start, 'Stop', 0), 0]], start_cost)
 
     while not reachable.isEmpty():
         nodes = reachable.pop()
