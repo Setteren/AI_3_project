@@ -212,7 +212,6 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-
     start = problem.getStartState()
     start_cost = heuristic(start, problem)
 
@@ -222,7 +221,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     path_points = []
     explored = {}
 
-    prev_nodes = { start: {'prev':None, 'cost':0} }
+    prev_nodes = {start: {'prev': None, 'cost': 0}}
     while not reachable.isEmpty():
 
         current = reachable.pop()
@@ -244,21 +243,51 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
                 reachable.update(nb[0], full_cost)
 
-                prev_nodes[nb[0]] = {'prev':current, 'cost': cost_from}
+                prev_nodes[nb[0]] = {'prev': current, 'cost': cost_from}
             elif explored[nb[0]]['cost'] > cost_from:
 
-                explored[nb[0]] = {'prev':current, 'cost': cost_from}
-                prev_nodes[nb[0]] = {'prev':current, 'cost': cost_from}
+                explored[nb[0]] = {'prev': current, 'cost': cost_from}
+                prev_nodes[nb[0]] = {'prev': current, 'cost': cost_from}
     path_points = pathBuilder(problem.goal, explored)
     path = getR(path_points, problem)
     showOfChecked(explored)
     return path
 
+def GreedySearch(problem, heuristic=nullHeuristic):
+    visited = []
+    action = []
 
+    start = problem.getStartState()
+    start_cost = heuristic(start, problem)
+
+    reachable = util.PriorityQueue()
+    reachable.push(start, start_cost)
+
+    while not reachable.isEmpty():
+        nodes = reachable.pop()
+
+        node = nodes[-1]
+        if problem.isGoalState(node[0][0]):
+            for path in nodes[1:]:
+                action.append(path[0][1])
+            return action
+
+        if node[0][0] not in visited:
+            visited.append(node[0][0])
+            successors = problem.getSuccessors(node[0][0])
+
+            for successor in successors:
+                if successor[0] not in visited:
+                    cost = node[1] + successor[2]
+                    start_cost = heuristic(successor[0], problem)
+                    currentpath = nodes[:]
+                    currentpath.append([successor, cost])
+                    reachable.push(currentpath, start_cost)
+    return []
 
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
-#greedy = GreedySearch
+greedy = GreedySearch
 ucs = uniformCostSearch
