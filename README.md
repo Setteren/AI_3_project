@@ -33,7 +33,7 @@ A*
 
 Для запуску режиму DFS : 
 
-> py pacman.py -l mediumMaze -p SearchAgent
+> py pacman.py -l mediumMaze -p SearchAgent -a fn=dfs
 
 Для запуску режиму BFS : 
 
