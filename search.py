@@ -212,13 +212,53 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    start = problem.getStartState()
+    start_cost = heuristic(start, problem)
+
+    reachable = util.PriorityQueue()
+    reachable.push(start, start_cost)
+
+    path_points = []
+    explored = {}
+
+    prev_nodes = { start: {'prev':None, 'cost':0} }
+    while not reachable.isEmpty():
+
+        current = reachable.pop()
+
+        explored[current] = prev_nodes[current]
+
+        if current == problem.goal:
+            break
+
+        neighbours = problem.getSuccessors(current)
+        for nb in neighbours:
+
+            cost_from = prev_nodes[current]['cost'] + nb[2]
+
+            if nb[0] not in explored.keys():
+
+                cost_to = heuristic(nb[0], problem)
+                full_cost = cost_from + cost_to
+
+                reachable.update(nb[0], full_cost)
+
+                prev_nodes[nb[0]] = {'prev':current, 'cost': cost_from}
+            elif explored[nb[0]]['cost'] > cost_from:
+
+                explored[nb[0]] = {'prev':current, 'cost': cost_from}
+                prev_nodes[nb[0]] = {'prev':current, 'cost': cost_from}
+    path_points = pathBuilder(problem.goal, explored)
+    path = getR(path_points, problem)
+    showOfChecked(explored)
+    return path
+
 
 
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
+#greedy = GreedySearch
 ucs = uniformCostSearch
